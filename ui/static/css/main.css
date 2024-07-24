@@ -1,0 +1,43 @@
+h1 {
+    width: auto;
+    text-align: center;
+    color:lightslategray;
+}
+
+.layer_1 {
+    position: relative;
+/*    background: #f0f0f0; */
+    height: 300px;   
+    width: 650px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.layer_2 {
+    position: relative;
+/*    background: #f9fbfc; */
+    height: 150 px;
+    width: 550px;
+    margin: 0 auto;
+/*    border: 1px ridge lightblue; */
+    text-align: center;
+}
+
+.name_label {
+    display: inline-block;
+    width: 150px;
+}
+
+.name_input {
+/*    position: relative; */
+    width: 250px;
+    font-size: 12px;
+    padding: 3px;
+    border: none;
+    border: 1px solid lightslategray;
+    border-radius: 5px;
+    box-shadow: inset 1px 1px 1px #CCC;
+    display: inl;
+    justify-content: center; 
+}
+
