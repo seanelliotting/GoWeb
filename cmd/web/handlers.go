@@ -6,57 +6,47 @@ import (
 	"net/http"
 )
 
-type NameStruct struct {
+type structForTemplate struct { // this structure is intended to be passed to the template
 	Name string
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
+
+	files := []string{
+		"./ui/html/home.page.tmpl",
+		"./ui/html/base.layout.tmpl",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Interner Server Error ParseFiles", 500)
+		return
+	}
+
 	if r.Method == "POST" {
 
-		var NameString string
+		var totalNameString string
 
 		err := r.ParseForm()
 		if err != nil {
 			log.Println(err)
 		}
-		Name := r.PostForm.Get("name") //	first use r.ParseForm()
+		nameReceived := r.PostForm.Get("name") //	first use r.ParseForm()
 
-		//Name := r.FormValue("name")		//	another method of extracting data without r.ParseForm()
+		log.Printf("POST one line: %s\n", nameReceived)
 
-		log.Println("POST")
-		log.Println(Name)
+		totalNameString = "Hello! " + nameReceived
 
-		files := []string{
-			"./ui/html/home.page.tmpl",
-			"./ui/html/base.layout.tmpl",
-		}
-
-		ts, err := template.ParseFiles(files...)
+		err = ts.Execute(w, structForTemplate{totalNameString})
 		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Interner Server Error", 500)
-			return
+			log.Println(err)
+			http.Error(w, "Interner Server Error  MyTest", 500)
 		}
-
-		NameString = "Hello! " + Name
-
-		ts.Execute(w, NameStruct{NameString})
 
 	} else {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
-			return
-		}
-
-		files := []string{
-			"./ui/html/home.page.tmpl",
-			"./ui/html/base.layout.tmpl",
-		}
-
-		ts, err := template.ParseFiles(files...)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, "Interner Server Error", 500)
 			return
 		}
 
@@ -67,7 +57,5 @@ func home(w http.ResponseWriter, r *http.Request) {
 		}
 
 		log.Println("Not POST")
-
-		//w.Write([]byte("Hello from GoWeb!"))		// display text in the browser window
 	}
 }
