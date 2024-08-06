@@ -71,4 +71,7 @@ A web page of the small application will be displayed on the screen.
   ``` shell
   $ cd $HOME/GoWeb
   $ go run ./cmd/web
+INFO	2024/07/24 16:00:51 Starting server on :4000
   ```
+If the server starts there will be a line   
+INFO	2024/07/24 16:00:51 Starting server on :4000
